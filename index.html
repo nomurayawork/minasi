@@ -1,0 +1,219 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script>
+        let checkbox = 'input[name="Agreement"]:checked',
+            id_monny = '#monny',
+            id_minasi = '#minasi',
+            id_bonusnum = '#bonus_num',
+            id_bonusmonth = '#bonus_month',
+            id_year = '#getyear',
+            id_nobonus = '#getnobonus',
+            id_bonus = '#getbonus',
+            id_month = '#getmonth',
+            id_hour = '#gethour',
+            id_honto = '#getminasi',
+            id_hontoyear = '#getminasiyear',
+            id_over = '#getover',
+            id_bonusyear = '#getminasibonus';
+            id_hoken = '#hoken';
+            id_tedori = '#tedori';
+
+        function submit() {
+            let agree = $(checkbox).val();
+            if (agree == "year") {
+                year_algorism();
+            } else if (agree == "month") {
+                month_algorism();
+            } else {
+                hour_algorism();
+            }
+        }
+
+        function year_algorism() {
+
+            let monny = $(id_monny).val();
+            if (!$.isNumeric(monny)) {
+            alert("金額は半角数値で入力してください");
+            return false;
+            }
+            let minasi = $(id_minasi).val();
+            if (!$.isNumeric(minasi)) {
+                alert("みなし残業時間は半角数値で入力してください");
+                return false;
+            }
+            let bonus_num = $(id_bonusnum).val();
+            if (!$.isNumeric(minasi)) {
+                alert("ボーナス/ヶ月半角数値で入力してください");
+                return false;
+            }
+            let bonus_month = $(id_bonusmonth).val();
+            if (!$.isNumeric(minasi)) {
+                alert("ボーナス月率は半角数値で入力してください");
+                return false;
+            }
+            let hoken = $(id_hoken).val();
+            if (!$.isNumeric(hoken)) {
+                alert("控除額は半角数値で入力してください");
+                return false;
+            }
+
+            let getyear = monny;
+            let getmonth = parseInt(getyear / (12 + Number(bonus_num)));
+            let getnobonus = parseInt(getyear - (getmonth * bonus_num));
+            let getbonus = parseInt(getnobonus + (getmonth * bonus_month * bonus_num));
+            let gethour = parseInt(getmonth / 160);
+            let getminasi = parseInt(gethour * (160+minasi*1.25));
+            let getminasiyear = getminasi * (12 + bonus_num);
+            let getover = parseInt(getmonth / (160+minasi*1.25));
+            let getminasibonus = getminasi * 12 + getmonth * bonus_month * bonus_num;
+            let gethoken = getmonth - hoken;
+
+            $(id_year).val(getyear);
+            $(id_nobonus).val(getnobonus);
+            $(id_bonus).val(getbonus);
+            $(id_month).val(getmonth);
+            $(id_hour).val(gethour);
+            $(id_honto).val(getminasi);
+            $(id_hontoyear).val(getminasiyear);
+            $(id_over).val(getover);
+            $(id_bonusyear).val(getminasibonus);
+            $(id_tedori).val(gethoken);
+        }
+
+        function month_algorism() {
+
+            let monny = $(id_monny).val();
+            if (!$.isNumeric(monny)) {
+            alert("金額は半角数値で入力してください");
+            return false;
+            }
+            let minasi = $(id_minasi).val();
+            if (!$.isNumeric(minasi)) {
+                alert("みなし残業時間は半角数値で入力してください");
+                return false;
+            }
+            let bonus_num = $(id_bonusnum).val();
+            if (!$.isNumeric(minasi)) {
+                alert("ボーナス/ヶ月半角数値で入力してください");
+                return false;
+            }
+            let bonus_month = $(id_bonusmonth).val();
+            if (!$.isNumeric(minasi)) {
+                alert("ボーナス月率は半角数値で入力してください");
+                return false;
+            }
+            let hoken = $(id_hoken).val();
+            if (!$.isNumeric(hoken)) {
+                alert("控除額は半角数値で入力してください");
+                return false;
+            }
+
+
+            let getmonth = monny;
+            let getnobonus = getmonth * 12;
+            let getyear = getnobonus + bonus_num * getmonth;
+            let getbonus = parseInt(getnobonus + getmonth * bonus_month * bonus_num);
+            let gethour = parseInt(getmonth / 160);
+            let getminasi = parseInt(gethour * (160+minasi*1.25));
+            let getminasiyear = getminasi * (12 + bonus_num);
+            let getover = parseInt(getmonth / (160+minasi*1.25));
+            let getminasibonus = getminasi * 12 + getmonth * bonus_month * bonus_num;
+            let gethoken = getmonth - hoken;
+
+            $(id_year).val(getyear);
+            $(id_nobonus).val(getnobonus);
+            $(id_bonus).val(getbonus);
+            $(id_month).val(getmonth);
+            $(id_hour).val(gethour);
+            $(id_honto).val(getminasi);
+            $(id_hontoyear).val(getminasiyear);
+            $(id_over).val(getover);
+            $(id_bonusyear).val(getminasibonus);
+            $(id_tedori).val(gethoken);
+        }
+
+        function hour_algorism() {
+
+            let monny = $(id_monny).val();
+            if (!$.isNumeric(monny)) {
+            alert("金額は半角数値で入力してください");
+            return false;
+            }
+            let minasi = $(id_minasi).val();
+            if (!$.isNumeric(minasi)) {
+                alert("みなし残業時間は半角数値で入力してください");
+                return false;
+            }
+                        let hoken = $(id_hoken).val();
+            if (!$.isNumeric(hoken)) {
+                alert("控除額は半角数値で入力してください");
+                return false;
+            }
+
+            let gethour = monny;
+            let getmonth = gethour * 160;
+            let getyear = getmonth * 12;
+            let getminasi = gethour * (160 + minasi * 1.25);
+            let getminasiyear = getminasi * 12;
+            let gethoken = getmonth - hoken;
+
+            $(id_year).val(getyear);
+            $(id_nobonus).val("");
+            $(id_bonus).val("");
+            $(id_month).val(getmonth);
+            $(id_hour).val(gethour);
+            $(id_honto).val(getminasi);
+            $(id_hontoyear).val(getminasiyear);
+            $(id_over).val(gethour);
+            $(id_bonusyear).val("");
+            $(id_tedori).val(gethoken);
+        }
+
+    </script>
+</head>
+
+<body>
+    <section>
+        <h1>給与入力欄</h1>
+        <input type="radio" name="Agreement" value="year" id="year" checked="checked"><label for="year">年俸</label><br>
+        <input type="radio" name="Agreement" value="month" id="month"><label for="month">月額</label><br>
+        <input type="radio" name="Agreement" value="date" id="date"><label for="date">時給</label><br>
+        <label for="monny">金額：</label><input id="monny" value="3000000"> 円<br>
+        <label for="minasi">みなし残業時間：</label><input id="minasi" value="45"> 時間（月）<br>
+        <label for="bonus_num">ボーナス回数：</label><input id="bonus_num" value="2"> 回<br>
+        <label for="bonus_month">ボーナス月率：</label><input id="bonus_month" value="4"> ヶ月分<br>
+        <label for="hoken">控除分：</label><input id="hoken" value="0"> 円<br>
+        <button id="submit" onclick="submit()">確認</button>
+    </section>
+    <section>
+        <h1>結果出力欄</h1>
+        <p>
+            年給：<input class="result" id="getyear"><br>
+            年給（ボーナス削減時）：<input class="result" id="getnobonus"><br>
+            年給（ボーナス適用時）：<input class="result" id="getbonus"><br>
+            月給：<input class="result" id="getmonth"><br>
+            時間内時給：<input class="result" id="gethour"><br>
+            超過時給：<input class="result" id="getover"> *1.25<br>
+            手取り：<input class="result" id="tedori"><br>
+        </p>
+        <h2>私的試算法</h2>
+        <p>
+            本来月給：<input class="result" id="getminasi"><br>
+            本来年収：<input class="result" id="getminasiyear"><br>
+            夢のある数値：<input class="result" id="getminasibonus"><br>
+        </p>
+    </section>
+    <section>
+        <h1>使い方</h1>
+        <p>年俸・月給制にすると所定の項目に基づき試算されます。<br>
+            時給にするとみなし残業時間は想定残業時間として計上されます。<br>
+            被採用者は、超過時給があなたの給料だと考えないとひどいめに遭います、きっと。<br>
+            ボーナス分は、たとえばみなし残業時間分の残業時間×ボーナス月率が上半期・下半期のボーナスヶ月分を下回ると割に合わない仕事をしている可能性が高いです。
+        </p>
+    </section>
+</body>
+
+</html>
